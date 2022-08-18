@@ -1,7 +1,14 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:covidapp/core/enum/image_path.dart';
+import 'package:covidapp/page/home/model/global_model.dart';
+import 'package:covidapp/page/home/service/home_service.dart';
+import 'package:covidapp/page/home/viewmodel/home_view_model.dart';
+import 'package:covidapp/product/service/service_manager.dart';
+import 'package:covidapp/product/widget/card/global_statistic_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/constants/page_constants.dart';
 import '../../../product/widget/card/introduction_card.dart';
 
 class HomeView extends StatefulWidget {
@@ -15,116 +22,129 @@ class _HomeViewState extends State<HomeView> {
   String dpValue = "tr";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _AppBar(context),
-      //    backgroundColor: Colors.white.withOpacity(0.9),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  // color: Colors.white,
-                  gradient: LinearGradient(
-                      colors: [Colors.amber, Colors.amber.shade600]),
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
-              child: Row(children: [
-                ImagePath.ic_health.toWidget(height: 200),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Lorem ipsum dolor sit.',
-                          style: Theme.of(context).textTheme.headline6),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(' Ut euismod, lectus eu accumsan dignissim, nisl.',
-                          style: Theme.of(context).textTheme.bodyText1)
-                    ],
+    return ChangeNotifierProvider<HomeProvider>(
+      create: (context) => HomeProvider(HomeService(ServiceManager.instance.service)),
+      builder: (context, child) {
+        return Scaffold(
+          appBar: _AppBar(context),
+          //    backgroundColor: Colors.white.withOpacity(0.9),
+          body: Padding(
+            padding: const PagePaddingCustom.allMedium(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _description(context),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  PageTexts.protectYourself,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const Divider(),
+                const _ProtectionInfo(),
+                Text(
+                  PageTexts.globalStatistic,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const Divider(),
+                context.watch<HomeProvider>().isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : _GlobalStatistic(context, context.watch<HomeProvider>().global),
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [Colors.amber.shade600, Colors.amber]),
+                        color: Colors.amber,
+                        borderRadius:
+                            const BorderRadius.only(topLeft: Radius.circular(80), topRight: Radius.circular(80))),
+                    width: MediaQuery.of(context).size.width,
+                    child: _countryWatch(context),
                   ),
                 )
-              ]),
+              ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Protect Yourself',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            const Divider(),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    IntroductionCard(
-                        imageName: ImagePath.ic_distance,
-                        title: 'Distance',
-                        height: 90),
-                    IntroductionCard(
-                        imageName: ImagePath.ic_washhands,
-                        title: 'Wash Your Hands',
-                        height: 90),
-                    IntroductionCard(
-                        imageName: ImagePath.ic_wearmask,
-                        title: 'Wear Mask',
-                        height: 90),
-                  ]),
-            ),
-            Flexible(
-              child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.amber.shade600, Colors.amber]),
-                      color: Colors.amber,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(80),
-                          topRight: Radius.circular(80))),
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Text('Watch Your Country',
-                              style: Theme.of(context).textTheme.headline5),
-                        ),
-                        DropdownButton<String>(
-                            value: dpValue,
-                            items: const [
-                              DropdownMenuItem(
-                                value: "tr",
-                                child: Text('tr'),
-                              ),
-                              DropdownMenuItem(value: "en", child: Text('en')),
-                              DropdownMenuItem(
-                                value: "usa",
-                                child: Text('usa'),
-                              )
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                dpValue = value!;
-                              });
-                            })
-                      ])),
-            )
-          ],
+          ),
+        );
+      },
+    );
+  }
+
+  SingleChildScrollView _GlobalStatistic(BuildContext context, GlobalModel model) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        GlobalStatisticCard(colorm: Colors.black, title: PageTexts.cases, value: model.cases ?? 0),
+        GlobalStatisticCard(colorm: Colors.red, title: PageTexts.deaths, value: model.deaths ?? 0),
+        GlobalStatisticCard(colorm: Colors.green, title: PageTexts.recovered, value: model.recovered ?? 0)
+      ]),
+    );
+  }
+
+  Column _countryWatch(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const PagePaddingCustom.onlyTopHigh(),
+          child: Text(PageTexts.watchCountry, style: Theme.of(context).textTheme.headline5),
         ),
-      ),
+        ElevatedButton(
+            onPressed: () {
+              showCountryPicker(
+                context: context,
+                onSelect: (value) {
+                  // debugPrint(value.toString());
+                },
+                countryListTheme: const CountryListThemeData(
+                  // Optional. Sets the border radius for the bottomsheet.
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40.0),
+                    topRight: Radius.circular(40.0),
+                  ),
+                  inputDecoration: InputDecoration(
+                    labelText: PageTexts.search,
+                    hintText: PageTexts.typeSearch,
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
+              );
+            },
+            child: const Text(PageTexts.selectCountry))
+      ],
+    );
+  }
+
+  Container _description(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.2,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          // color: Colors.white,
+          gradient: LinearGradient(colors: [Colors.amber, Colors.amber.shade600]),
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
+      child: Row(children: [
+        ImagePath.ic_health.toWidget(height: 200),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Lorem ipsum dolor sit.', style: Theme.of(context).textTheme.headline6),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(' Ut euismod, lectus eu accumsan dignissim, nisl.', style: Theme.of(context).textTheme.bodyText1)
+            ],
+          ),
+        )
+      ]),
     );
   }
 
   AppBar _AppBar(BuildContext context) {
     return AppBar(
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
       actions: [
         IconButton(
           onPressed: () {},
@@ -132,20 +152,32 @@ class _HomeViewState extends State<HomeView> {
             Icons.refresh_outlined,
             color: Colors.black54,
           ),
-          tooltip: 'Refresh Data',
+          tooltip: PageTexts.refreshData,
         )
       ],
       title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('Covid Statistics',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
         Text('Stay Healthy',
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(color: Colors.black, fontWeight: FontWeight.w300))
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.w300))
+      ]),
+    );
+  }
+}
+
+class _ProtectionInfo extends StatelessWidget {
+  const _ProtectionInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: const [
+        IntroductionCard(imageName: ImagePath.ic_distance, title: 'Distance', height: 90),
+        IntroductionCard(imageName: ImagePath.ic_washhands, title: 'Wash Your Hands', height: 90),
+        IntroductionCard(imageName: ImagePath.ic_wearmask, title: 'Wear Mask', height: 90),
       ]),
     );
   }
