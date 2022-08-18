@@ -2,7 +2,7 @@ import 'package:covidapp/core/enum/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../product/card/introduction_card.dart';
+import '../../../product/widget/card/introduction_card.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);

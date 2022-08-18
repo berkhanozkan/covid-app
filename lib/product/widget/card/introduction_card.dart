@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/enum/image_path.dart';
+import '../../../core/enum/image_path.dart';
 
 class IntroductionCard extends StatelessWidget {
   const IntroductionCard(
