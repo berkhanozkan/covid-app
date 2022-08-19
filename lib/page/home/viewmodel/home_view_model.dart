@@ -15,6 +15,7 @@ class HomeProvider extends ChangeNotifier {
   final IHomeService homeService;
 
   GlobalModel? global;
+  String countryname = "";
   CountryModel? country;
   bool isLoading = false;
 
@@ -31,6 +32,7 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> fetchCountry(String countryName) async {
     _changeLoading();
+    countryname = countryName;
     country = await homeService.fetchCountry(countryName);
     _changeLoading();
   }

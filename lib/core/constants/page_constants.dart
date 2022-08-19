@@ -7,7 +7,7 @@ class PagePaddingCustom extends EdgeInsets {
 
 class PageTexts {
   static const refreshData = 'Refresh Data';
-  static const selectCountry = 'Select Country';
+  static const selectCountry = 'Click to Select Country';
   static const watchCountry = 'Watch Your Country';
   static const cases = 'Cases';
   static const deaths = 'Deaths';

@@ -102,6 +102,9 @@ class _HomeViewState extends State<HomeView> {
           child: Text(PageTexts.watchCountry,
               style: Theme.of(context).textTheme.headline5),
         ),
+        Text(context.watch<HomeProvider>().countryname.isEmpty
+            ? 'Not selected Country'
+            : context.watch<HomeProvider>().countryname),
         ElevatedButton(
             onPressed: () {
               showCountryPicker(
@@ -128,28 +131,31 @@ class _HomeViewState extends State<HomeView> {
           child: PieChart(
             PieChartData(sections: [
               PieChartSectionData(
-                title: 'Cases',
+                title: '',
+                badgePositionPercentageOffset: 2,
+                badgeWidget: Container(
+                  decoration: const BoxDecoration(color: Colors.blue),
+                  child: Text(
+                      'Total Cases\n${context.watch<HomeProvider>().country?.cases ?? 0}',
+                      style: const TextStyle(color: Colors.white)),
+                ),
                 value: (context.watch<HomeProvider>().country?.cases ?? 0)
                     .toDouble(),
                 color: Colors.blue,
               ),
               PieChartSectionData(
-                title: 'Total Tests',
-                value: (context.watch<HomeProvider>().country?.totalTests ?? 0)
-                    .toDouble(),
-                color: Colors.purple,
-              ),
-              PieChartSectionData(
                 value: (context.watch<HomeProvider>().country?.deaths ?? 0)
                     .toDouble(),
-                title: 'Deaths',
+                badgePositionPercentageOffset: 2,
+                badgeWidget: Container(
+                  decoration: const BoxDecoration(color: Colors.red),
+                  child: Text(
+                      'Total Deaths\n${context.watch<HomeProvider>().country?.deaths ?? 0}',
+                      style: const TextStyle(color: Colors.white)),
+                ),
+                title: '',
                 color: Colors.red,
               ),
-              PieChartSectionData(
-                  value: (context.watch<HomeProvider>().country?.critical ?? 0)
-                      .toDouble(),
-                  title: 'Critical',
-                  color: Colors.grey)
             ]
                 // read about it in the PieChartData section
                 ),
