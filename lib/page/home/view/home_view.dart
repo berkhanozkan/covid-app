@@ -5,6 +5,7 @@ import 'package:covidapp/page/home/service/home_service.dart';
 import 'package:covidapp/page/home/viewmodel/home_view_model.dart';
 import 'package:covidapp/product/service/service_manager.dart';
 import 'package:covidapp/product/widget/card/global_statistic_card.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  String dpValue = "tr";
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeProvider>(
@@ -106,8 +106,8 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () {
               showCountryPicker(
                 context: context,
-                onSelect: (value) {
-                  // debugPrint(value.toString());
+                onSelect: (value) async {
+                  await context.read<HomeProvider>().fetchCountry(value.name);
                 },
                 countryListTheme: const CountryListThemeData(
                   // Optional. Sets the border radius for the bottomsheet.
@@ -123,7 +123,41 @@ class _HomeViewState extends State<HomeView> {
                 ),
               );
             },
-            child: const Text(PageTexts.selectCountry))
+            child: const Text(PageTexts.selectCountry)),
+        Expanded(
+          child: PieChart(
+            PieChartData(sections: [
+              PieChartSectionData(
+                title: 'Cases',
+                value: (context.watch<HomeProvider>().country?.cases ?? 0)
+                    .toDouble(),
+                color: Colors.blue,
+              ),
+              PieChartSectionData(
+                title: 'Total Tests',
+                value: (context.watch<HomeProvider>().country?.totalTests ?? 0)
+                    .toDouble(),
+                color: Colors.purple,
+              ),
+              PieChartSectionData(
+                value: (context.watch<HomeProvider>().country?.deaths ?? 0)
+                    .toDouble(),
+                title: 'Deaths',
+                color: Colors.red,
+              ),
+              PieChartSectionData(
+                  value: (context.watch<HomeProvider>().country?.critical ?? 0)
+                      .toDouble(),
+                  title: 'Critical',
+                  color: Colors.grey)
+            ]
+                // read about it in the PieChartData section
+                ),
+            swapAnimationDuration:
+                const Duration(milliseconds: 150), // Optional
+            swapAnimationCurve: Curves.linear, // Optional
+          ),
+        )
       ],
     );
   }

@@ -6,7 +6,7 @@ void main() {
   test('Counter value should be incremented', () async {
     final servce = HomeService(ServiceManager.instance.service);
 
-    final result = await servce.fetchData('turkey');
+    final result = await servce.fetchCountry('turkey');
 
     expect(result, isNotNull);
   });

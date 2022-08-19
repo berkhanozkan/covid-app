@@ -29,7 +29,7 @@ class HomeProvider extends ChangeNotifier {
     _changeLoading();
   }
 
-  Future<void> _fetchCountry(String countryName) async {
+  Future<void> fetchCountry(String countryName) async {
     _changeLoading();
     country = await homeService.fetchCountry(countryName);
     _changeLoading();
