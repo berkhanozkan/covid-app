@@ -7,7 +7,7 @@ You can see all application page scrolling down while using app.
 
 ## Thanks
 
-I used [country_picker](https://pub.dev/packages/country_picker) package for countries that listed in dropdown and used this [covid api](https://github.com/javieraviles/covidAPI) to get datas.
+I used this [covid api](https://github.com/javieraviles/covidAPI) to get datas.
 
 For design : It's free created by [simantOo](https://dribbble.com/shots/11015463-Covid-19-App-Free). 
 
