@@ -31,28 +31,29 @@ class _HomeViewState extends State<HomeView> {
           //    backgroundColor: Colors.white.withOpacity(0.9),
           body: Padding(
             padding: const PagePaddingCustom.allMedium(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _description(context),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  PageTexts.protectYourself,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const Divider(),
-                const _ProtectionInfo(),
-                Text(
-                  PageTexts.globalStatistic,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const Divider(),
-                _GlobalStatistic(
-                    context, context.watch<HomeProvider?>()?.global),
-                Flexible(
-                  child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _description(context),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    PageTexts.protectYourself,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const Divider(),
+                  const _ProtectionInfo(),
+                  Text(
+                    PageTexts.globalStatistic,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const Divider(),
+                  _GlobalStatistic(
+                      context, context.watch<HomeProvider?>()?.global),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 3.1,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: [Colors.amber.shade600, Colors.amber]),
@@ -62,9 +63,9 @@ class _HomeViewState extends State<HomeView> {
                             topRight: Radius.circular(80))),
                     width: MediaQuery.of(context).size.width,
                     child: _countryWatch(context),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         );
