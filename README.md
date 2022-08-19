@@ -5,9 +5,11 @@ A simple flutter application which displays the coronavirus data of selected cou
 You can see all application page scrolling down while using app.
 
 
-## Thanks
+## API SOURCE
 
 I used this [covid api](https://github.com/javieraviles/covidAPI) to get datas.
+
+## DESIGN SOURCE
 
 For design (images) : It's free created by [simantOo](https://dribbble.com/shots/11015463-Covid-19-App-Free). 
 
