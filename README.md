@@ -9,7 +9,7 @@ You can see all application page scrolling down while using app.
 
 I used this [covid api](https://github.com/javieraviles/covidAPI) to get datas.
 
-For design : It's free created by [simantOo](https://dribbble.com/shots/11015463-Covid-19-App-Free). 
+For design (images) : It's free created by [simantOo](https://dribbble.com/shots/11015463-Covid-19-App-Free). 
 
  
 <img src="https://user-images.githubusercontent.com/22919680/185630231-20f53b7f-bd8c-4d5f-bb35-f6bbc602c975.png"  height="550">
