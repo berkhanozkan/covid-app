@@ -13,7 +13,7 @@ You can see all application page scrolling down while using app.
 
 ## API SOURCE
 
-I used this [covid api](https://github.com/javieraviles/covidAPI) to get datas. (from [@Javieraviles](https://github.com/javieraviles))
+I used [this api](https://github.com/javieraviles/covidAPI) to get datas. (from [@Javieraviles](https://github.com/javieraviles))
 
 ## DESIGN SOURCE
 
