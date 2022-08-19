@@ -5,7 +5,7 @@ A flutter application which displays the coronavirus data of selected country on
 
 
 
-##Thanks
+## Thanks
 
 I used [country_picker](https://pub.dev/packages/country_picker) package for countries that listed in dropdown and used this [covid api](https://github.com/javieraviles/covidAPI) to get datas.
 
