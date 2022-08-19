@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class PagePaddingCustom extends EdgeInsets {
-  const PagePaddingCustom.onlyTopHigh() : super.only(top: 20);
+  const PagePaddingCustom.onlyTopHigh() : super.only(top: 10);
   const PagePaddingCustom.allMedium() : super.all(10);
 }
 
