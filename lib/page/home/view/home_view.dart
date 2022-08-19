@@ -23,7 +23,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeProvider>(
-      create: (context) => HomeProvider(HomeService(ServiceManager.instance.service)),
+      create: (context) =>
+          HomeProvider(HomeService(ServiceManager.instance.service)),
       builder: (context, child) {
         return Scaffold(
           appBar: _AppBar(context),
@@ -48,18 +49,17 @@ class _HomeViewState extends State<HomeView> {
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 const Divider(),
-                context.watch<HomeProvider>().isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : _GlobalStatistic(context, context.watch<HomeProvider>().global),
+                _GlobalStatistic(
+                    context, context.watch<HomeProvider?>()?.global),
                 Flexible(
                   child: Container(
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [Colors.amber.shade600, Colors.amber]),
+                        gradient: LinearGradient(
+                            colors: [Colors.amber.shade600, Colors.amber]),
                         color: Colors.amber,
-                        borderRadius:
-                            const BorderRadius.only(topLeft: Radius.circular(80), topRight: Radius.circular(80))),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(80),
+                            topRight: Radius.circular(80))),
                     width: MediaQuery.of(context).size.width,
                     child: _countryWatch(context),
                   ),
@@ -72,13 +72,23 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  SingleChildScrollView _GlobalStatistic(BuildContext context, GlobalModel model) {
+  SingleChildScrollView _GlobalStatistic(
+      BuildContext context, GlobalModel? model) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        GlobalStatisticCard(colorm: Colors.black, title: PageTexts.cases, value: model.cases ?? 0),
-        GlobalStatisticCard(colorm: Colors.red, title: PageTexts.deaths, value: model.deaths ?? 0),
-        GlobalStatisticCard(colorm: Colors.green, title: PageTexts.recovered, value: model.recovered ?? 0)
+        GlobalStatisticCard(
+            colorm: Colors.black,
+            title: PageTexts.cases,
+            value: model?.cases ?? 0),
+        GlobalStatisticCard(
+            colorm: Colors.red,
+            title: PageTexts.deaths,
+            value: model?.deaths ?? 0),
+        GlobalStatisticCard(
+            colorm: Colors.green,
+            title: PageTexts.recovered,
+            value: model?.recovered ?? 0)
       ]),
     );
   }
@@ -89,7 +99,8 @@ class _HomeViewState extends State<HomeView> {
       children: [
         Padding(
           padding: const PagePaddingCustom.onlyTopHigh(),
-          child: Text(PageTexts.watchCountry, style: Theme.of(context).textTheme.headline5),
+          child: Text(PageTexts.watchCountry,
+              style: Theme.of(context).textTheme.headline5),
         ),
         ElevatedButton(
             onPressed: () {
@@ -123,7 +134,8 @@ class _HomeViewState extends State<HomeView> {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           // color: Colors.white,
-          gradient: LinearGradient(colors: [Colors.amber, Colors.amber.shade600]),
+          gradient:
+              LinearGradient(colors: [Colors.amber, Colors.amber.shade600]),
           borderRadius: const BorderRadius.all(Radius.circular(20))),
       child: Row(children: [
         ImagePath.ic_health.toWidget(height: 200),
@@ -131,11 +143,13 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Lorem ipsum dolor sit.', style: Theme.of(context).textTheme.headline6),
+              Text('Lorem ipsum dolor sit.',
+                  style: Theme.of(context).textTheme.headline6),
               const SizedBox(
                 height: 10,
               ),
-              Text(' Ut euismod, lectus eu accumsan dignissim, nisl.', style: Theme.of(context).textTheme.bodyText1)
+              Text(' Ut euismod, lectus eu accumsan dignissim, nisl.',
+                  style: Theme.of(context).textTheme.bodyText1)
             ],
           ),
         )
@@ -146,20 +160,30 @@ class _HomeViewState extends State<HomeView> {
   AppBar _AppBar(BuildContext context) {
     return AppBar(
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.refresh_outlined,
-            color: Colors.black54,
-          ),
-          tooltip: PageTexts.refreshData,
-        )
+        context.watch<HomeProvider>().isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.refresh_outlined,
+                  color: Colors.black54,
+                ),
+                tooltip: PageTexts.refreshData,
+              )
       ],
       title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('Covid Statistics',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
         Text('Stay Healthy',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.black, fontWeight: FontWeight.w300))
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(color: Colors.black, fontWeight: FontWeight.w300))
       ]),
     );
   }
@@ -175,9 +199,14 @@ class _ProtectionInfo extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: const [
-        IntroductionCard(imageName: ImagePath.ic_distance, title: 'Distance', height: 90),
-        IntroductionCard(imageName: ImagePath.ic_washhands, title: 'Wash Your Hands', height: 90),
-        IntroductionCard(imageName: ImagePath.ic_wearmask, title: 'Wear Mask', height: 90),
+        IntroductionCard(
+            imageName: ImagePath.ic_distance, title: 'Distance', height: 90),
+        IntroductionCard(
+            imageName: ImagePath.ic_washhands,
+            title: 'Wash Your Hands',
+            height: 90),
+        IntroductionCard(
+            imageName: ImagePath.ic_wearmask, title: 'Wear Mask', height: 90),
       ]),
     );
   }

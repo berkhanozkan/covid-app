@@ -5,29 +5,33 @@ import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
   HomeProvider(this.homeService) {
+    global = GlobalModel();
+    country = CountryModel();
+
     _fetchGlobal();
     notifyListeners();
   }
 
   final IHomeService homeService;
 
-  GlobalModel global = GlobalModel();
-  CountryModel country = CountryModel();
+  GlobalModel? global;
+  CountryModel? country;
   bool isLoading = false;
 
   void _changeLoading() {
     isLoading = !isLoading;
+    notifyListeners();
   }
 
   Future<void> _fetchGlobal() async {
     _changeLoading();
-    global = (await homeService.fetchGlobal()) ?? GlobalModel();
+    global = await homeService.fetchGlobal();
     _changeLoading();
   }
 
   Future<void> _fetchCountry(String countryName) async {
     _changeLoading();
-    country = (await homeService.fetchCountry(countryName)) ?? CountryModel();
+    country = await homeService.fetchCountry(countryName);
     _changeLoading();
   }
 }
