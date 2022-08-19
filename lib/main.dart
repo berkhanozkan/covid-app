@@ -1,5 +1,5 @@
-import 'package:covidapp/page/home/view/home_view.dart';
-import 'package:covidapp/product/theme/light_theme.dart';
+import 'page/home/view/home_view.dart';
+import 'product/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

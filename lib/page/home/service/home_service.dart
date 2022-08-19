@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:covidapp/page/home/model/country_model.dart';
-import 'package:covidapp/page/home/model/global_model.dart';
+import '../model/country_model.dart';
+import '../model/global_model.dart';
 import 'package:dio/dio.dart';
 
 abstract class IHomeService {

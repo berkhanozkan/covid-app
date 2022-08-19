@@ -1,16 +1,16 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:covidapp/core/enum/image_path.dart';
-import 'package:covidapp/page/home/model/global_model.dart';
-import 'package:covidapp/page/home/service/home_service.dart';
-import 'package:covidapp/page/home/viewmodel/home_view_model.dart';
-import 'package:covidapp/product/service/service_manager.dart';
-import 'package:covidapp/product/widget/card/global_statistic_card.dart';
-import 'package:fl_chart/fl_chart.dart';
+import '../../../core/enum/image_path.dart';
+import '../model/global_model.dart';
+import '../service/home_service.dart';
+import '../viewmodel/home_view_model.dart';
+import '../../../product/service/service_manager.dart';
+import '../../../product/widget/card/global_statistic_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constants/page_constants.dart';
 import '../../../product/widget/card/introduction_card.dart';
+import '../../../product/widget/chart/pie_chart.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -127,43 +127,7 @@ class _HomeViewState extends State<HomeView> {
               );
             },
             child: const Text(PageTexts.selectCountry)),
-        Expanded(
-          child: PieChart(
-            PieChartData(sections: [
-              PieChartSectionData(
-                title: '',
-                badgePositionPercentageOffset: 2,
-                badgeWidget: Container(
-                  decoration: const BoxDecoration(color: Colors.blue),
-                  child: Text(
-                      'Total Cases\n${context.watch<HomeProvider>().country?.cases ?? 0}',
-                      style: const TextStyle(color: Colors.white)),
-                ),
-                value: (context.watch<HomeProvider>().country?.cases ?? 0)
-                    .toDouble(),
-                color: Colors.blue,
-              ),
-              PieChartSectionData(
-                value: (context.watch<HomeProvider>().country?.deaths ?? 0)
-                    .toDouble(),
-                badgePositionPercentageOffset: 2,
-                badgeWidget: Container(
-                  decoration: const BoxDecoration(color: Colors.red),
-                  child: Text(
-                      'Total Deaths\n${context.watch<HomeProvider>().country?.deaths ?? 0}',
-                      style: const TextStyle(color: Colors.white)),
-                ),
-                title: '',
-                color: Colors.red,
-              ),
-            ]
-                // read about it in the PieChartData section
-                ),
-            swapAnimationDuration:
-                const Duration(milliseconds: 150), // Optional
-            swapAnimationCurve: Curves.linear, // Optional
-          ),
-        )
+        const PieChartWidget(),
       ],
     );
   }

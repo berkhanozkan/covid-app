@@ -1,6 +1,6 @@
-import 'package:covidapp/page/home/model/country_model.dart';
-import 'package:covidapp/page/home/model/global_model.dart';
-import 'package:covidapp/page/home/service/home_service.dart';
+import '../model/country_model.dart';
+import '../model/global_model.dart';
+import '../service/home_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
